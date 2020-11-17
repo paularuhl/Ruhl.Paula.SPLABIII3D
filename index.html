@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <script src="./js/scripts.js" type="module"></script>
+    <link rel="stylesheet" href="https: //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Parcial</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <img id="logo" src="img/logo.png" alt="logo con estrellitas">
+        </div>
+        <div class="links">
+            <ul>
+                <li> <a href="#aboutUs">Nosotros</a> </li>
+                <li> <a href="#news">Anuncios</a> </li>
+                <li> <a href="#blog">Blog</a> </li>
+                <li> <a href="#contact">Contacto</a> </li>
+            </ul>
+        </div>
+    </header>
+    <div id="contenedorGeneral">
+        <div class="encabezadoAdmin">
+            <h1>ADMINISTRACIÓN</h1>
+        </div>
+
+        <div class="encabezadoAdmin">
+            <img src="img/autos_admin.png" alt="Autos">
+        </div>
+        <section class="container" id="dataIn">
+            <form>
+                <fieldset>
+                    <legend> Información del anuncio </legend>
+                    <div class="big">
+                        <img src="img/titulo.png" alt="titulo">
+                        <label for="txtTitulo">
+                            Titulo:
+                        </label>
+                        <input type="text" name="titulo" class="big" id="txtTitulo" required>
+                    </div>
+                    <br>
+                    <br>
+                    <fieldset id="setTransaction">
+                        <legend> Transaccion </legend>
+                        <label for="rdoS"><input type="radio" name="transaction" value="sell" id="rdoS" checked>
+                            Venta</label> <br>
+                        <label for="rdoR"><input type="radio" name="transaction" value="rent" id="rdoR">
+                            Alquiler</label>
+                        <br>
+                    </fieldset>
+                    <br>
+                    <br>
+                    <div class="big">
+                        <img src="img/descripcion.png" alt="descripcion">
+                        <label for="txtDescripcion">
+                            Descripcion:
+                        </label>
+                        <input type="text" name="descripcion" class="big" id="txtDescripcion" required>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="big">
+                        <img src="img/precio.png" alt="precio">
+                        <label for="txtPrecio">
+                            Precio:
+                        </label>
+                        <input type="text" name="precio" class="big" id="txtPrecio" required>
+                    </div>
+
+                    <br>
+                    <br>
+                    <label> <img src="img/puertas.png" alt="puerta">
+                        <input type="text" name="puertas" id="txtPuertas" placeholder="Puertas" required>
+                    </label>
+
+                    <label> <img src="img/kms.png" alt="kms">
+                        <input type="text" name="kms" id="txtKMs" class="tiny" placeholder="KMs" required>
+                    </label>
+
+                    <label> <img src="img/potencia.png" alt="potencia">
+                        <input type="text" name="potencia" id="txtPotencia" class="tiny" placeholder="Potencia"
+                            required>
+                    </label>
+
+                    <br>
+                    <input type="number" id="txtID" hidden>
+                </fieldset>
+                <div class="botones">
+                    <button id="btnGuardar"> <img src="img/save.png" alt="save" id="save">
+                        Guardar</button>
+                    <button id="btnModificar" disabled>Modificar</button>
+                    <button id="btnEliminar" disabled>Eliminar</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- <button id="btnTabla">Cargar Tabla</button> -->
+        <section class="container">
+            <div id="filtrarTransaccion">
+                <div>
+                    <label for="filterTransaction">
+                        Precio:
+                    </label>
+                    <select name="filterTransaction" id="filterTransaction">
+                        <option selected value="N/A"></option>
+                        <option value="venta">Venta</option>
+                        <option value="alquiler">Alquiler</option>
+                    </select>
+                </div>
+                <div>
+                    <label id="lblNombre" for="txtNombre">Nombre:</label>
+                    <input type="text" name="nombre" id="txtNombre" placeholder="Paula">
+                </div>
+
+            </div>
+            <div id="divTabla">
+            </div>
+        </section>
+    </div>
+    <footer>
+
+        <ul id="bottomLinks">
+            <li> <a href="#aboutUs">Nosotros</a> </li>
+            <li> <a href="#news">Anuncios</a> </li>
+            <li> <a href="#blog">Blog</a> </li>
+            <li> <a href="#contact">Contacto</a> </li>
+        </ul>
+        <h4>Todos los derechos reservados 2019 (c)</h4>
+    </footer>
+</body>
+
+</html>

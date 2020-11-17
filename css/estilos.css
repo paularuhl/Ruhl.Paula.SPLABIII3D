@@ -1,0 +1,178 @@
+body {
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    
+}
+.containerForm{
+    justify-content: center;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+table, th, td{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+thead{
+    background-color: lightcoral;
+}
+
+.links {
+    justify-self: flex-end;
+    padding: 10px;
+  }
+
+ul{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+footer {
+    width: 100%;
+    position:absolute;
+    bottom:0px;    
+
+    text-align: center;
+    flex-direction: row;
+    position: fixed;
+}
+
+
+#setTransaction{
+    display: flex;
+    justify-content: center;
+}
+
+header, footer{
+    background-color:lightblue;
+    display: flex;
+    justify-content: space-between;
+}
+
+#bottomLinks{
+    display: inline-block;
+    display: flex;
+    padding: 20px;
+}
+
+ #bottomLinks li {
+     padding-right: 10px;
+ }
+
+ .encabezadoAdmin{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+ }
+
+header {
+    padding-top: 0%;
+    display: flex;
+    justify-content: space-between;
+}
+
+header ul {
+    padding-right: 30px;
+}
+#logo{
+    padding-left: 10px;
+    padding-top: 15px;
+}
+
+form{
+    padding: 10px;
+    margin: 10px;
+}
+
+input{
+    padding: 10px;
+}
+
+html {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+tbody tr:hover{
+    background-color: #ffc7cc;
+    cursor: pointer;
+}
+
+.datosImg img{
+    width: 40px;
+}
+
+#contenedorGeneral{
+    overflow-y : auto;
+    min-height: calc(100vh - 40px);
+}
+
+h4{
+    padding-top: 15px;
+    display:inline-block;
+}
+
+.big{    
+    display: flex;
+    justify-content: flex-start;
+
+}
+.big input {
+    justify-items: flex-start;
+    flex: 1;
+}
+
+button#btnGuardar{
+    background-color: #acffb7;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+button#btnModificar{
+    padding: 7px;
+    background-color: #bfd2fc;
+}
+
+button#btnEliminar{
+    padding: 7px;
+    background-color: #fcbfc4;
+}
+
+button:hover{
+    background-color: #fcbfc4;
+    cursor: pointer;
+}
+
+#save{
+    align-self: center;
+    justify-self: center;
+    scale: 50%;
+}    
+
+
+.botones{
+    display: flex;
+    align-items: center;
+}
+
+button{
+    border-radius: 5px;
+}
+
+.big label{
+    padding: 5px;
+}
+
+.big img{
+    scale: 75%;
+}
