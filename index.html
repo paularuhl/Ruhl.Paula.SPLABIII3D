@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/estilos.css">
     <script src="./js/scripts.js" type="module"></script>
-    <link rel="stylesheet" href="https: //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Parcial</title>
+        <link rel="stylesheet" href="./css/estilos.css">
+
+        <title>Parcial</title>
 </head>
 
 <body>
@@ -34,7 +35,8 @@
         <div class="encabezadoAdmin">
             <img src="img/autos_admin.png" alt="Autos">
         </div>
-        <section class="container" id="dataIn">
+     <div class="container">
+        <section class="contenedor" id="dataIn">
             <form>
                 <fieldset>
                     <legend> Información del anuncio </legend>
@@ -47,13 +49,20 @@
                     </div>
                     <br>
                     <br>
-                    <fieldset id="setTransaction">
+                    <fieldset id="setTransaction" class="row">
                         <legend> Transaccion </legend>
+                        <div class="col-sm-12 col-md-6">
+
                         <label for="rdoS"><input type="radio" name="transaction" value="sell" id="rdoS" checked>
                             Venta</label> <br>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+
                         <label for="rdoR"><input type="radio" name="transaction" value="rent" id="rdoR">
                             Alquiler</label>
                         <br>
+                    </div>
+
                     </fieldset>
                     <br>
                     <br>
@@ -102,29 +111,42 @@
 
             </form>
         </section>
-
-        <!-- <button id="btnTabla">Cargar Tabla</button> -->
-        <section class="container">
-            <div id="filtrarTransaccion">
-                <div>
+        
+        <section class="contenedor ">
+            <!-- <p id=""> -->
+              
+                <div class="col-md-6 text-center filtrarTransaccion">
+                    <div>
                     <label for="filterTransaction">
-                        Precio:
+                        FiltrarTransaccion:
                     </label>
                     <select name="filterTransaction" id="filterTransaction">
-                        <option selected value="N/A"></option>
-                        <option value="venta">Venta</option>
-                        <option value="alquiler">Alquiler</option>
+                        <option id="slcFiltroTodos" selected value="N/A"></option>
+                        <option id="slcFiltroVenta" value="venta">Venta</option>
+                        <option id="slcFiltroAlquiler" value="alquiler">Alquiler</option>
                     </select>
                 </div>
                 <div>
-                    <label id="lblNombre" for="txtNombre">Nombre:</label>
-                    <input type="text" name="nombre" id="txtNombre" placeholder="Paula">
+                    <label id="lblPromedio" for="txtPromedio">Promedio:</label>
+                    <input type="text" name="promedio" id="txtPromedio" disabled>
                 </div>
+            </div>
+            <br>
+            <br>
+    
+            <!-- </p> -->
+        </section>
+        
 
+        <!-- <button id="btnTabla">Cargar Tabla</button> -->
+        <section class="contenedor">
+            
+            <div id="divSpinner">
             </div>
             <div id="divTabla">
             </div>
         </section>
+    </div>
     </div>
     <footer>
 

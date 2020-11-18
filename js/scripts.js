@@ -1,10 +1,13 @@
 import crearTabla from "./tabla.js";
-import Anuncio_Auto from "./anuncio_auto.js";
+
+import { traerSoloAnunciosFetchAsync, traerAnuncios } from "./API/fetch-async.js";
+import { eventHandlerAltaFetchAsync } from "./controllers/controllersCRUDFetchAsync.js";
+
+import { eventHandlerBajaFetch, eventHandlerModificarFetch } from "./controllers/controllersCRUDFetch.js";
 
 let listaAutomoviles = [];
 let proximoId;
-let divTabla;
-let frmAutomovil;
+const frmAutomovil = document.forms[0];
 
 window.addEventListener('load', inicializarManejadores);
 
@@ -17,218 +20,70 @@ const btnEliminar = document.getElementById("btnEliminar");
 
 
 
-let listaAnuncios = [{
-    "id": 1,
-    "titulo": "GMC",
-    "transaccion": "alquiler",
-    "descripcion": "Savana 3500",
-    "precio": 2134245,
-    "num_puertas": 3,
-    "num_KMs": 80352,
-    "potencia": 6112
-}, {
-    "id": 2,
-    "titulo": "Ford",
-    "transaccion": "alquiler",
-    "descripcion": "Econoline E250",
-    "precio": 5107498,
-    "num_puertas": 3,
-    "num_KMs": 54836,
-    "potencia": 6767
-}, {
-    "id": 3,
-    "titulo": "GMC",
-    "transaccion": "venta",
-    "descripcion": "Savana",
-    "precio": 4543143,
-    "num_puertas": 2,
-    "num_KMs": 64607,
-    "potencia": 7271
-}, {
-    "id": 4,
-    "titulo": "Mercedes-Benz",
-    "transaccion": "venta",
-    "descripcion": "SL-Class",
-    "precio": 1345614,
-    "num_puertas": 3,
-    "num_KMs": 52438,
-    "potencia": 12830
-}, {
-    "id": 5,
-    "titulo": "Mitsubishi",
-    "transaccion": "alquiler",
-    "descripcion": "Raider",
-    "precio": 213123123,
-    "num_puertas": 2,
-    "num_KMs": 46878,
-    "potencia": 56789
-}];
+export const titulo = document.getElementById("txtTitulo");
+export const descripcion = document.getElementById("txtDescripcion");
+export const precio = document.getElementById("txtPrecio");
+export const puertas = document.getElementById("txtPuertas");
+export const KM = document.getElementById("txtKMs");
+export const potencia = document.getElementById("txtPotencia");
+export const radioTransaccion = frmAutomovil.transaction;
+export const selectedId = document.getElementById("txtID");
+export const divTabla = document.getElementById('divTabla');
+export const divSpinner = document.getElementById('divSpinner');
+export const promedio = document.getElementById('txtPromedio');
+
+export const btnFiltroTodos = document.getElementById('slcFiltroTodos');
+export const btnFiltroAlquiler = document.getElementById('slcFiltroAlquiler');
+export const btnFfiltroVenta = document.getElementById('slcFiltroVenta');
 
 
-function inicializarManejadores() {
-    localStorage.setItem("anuncios", JSON.stringify(listaAnuncios));
+window.addEventListener('load', initHandlers);
 
-    listaAutomoviles = obtenerAutomoviles();
+async function initHandlers() {
 
-    divTabla = document.getElementById('divTabla');
-    frmAutomovil = document.forms[0];
-    if (listaAutomoviles) {
-        actualizarLista();
-    }
-    frmAutomovil.addEventListener('submit', e => {
-        e.preventDefault();
-        altaAutomovil();
-    });
-}
+    try {
 
-function obtenerAutomoviles() {
-    return JSON.parse(localStorage.getItem('anuncios')) || [];
-}
+        lista = await traerAnuncios();
 
-function altaAutomovil() {
-    listaAutomoviles = obtenerAutomoviles();
-    proximoId = obtenerId();
-    const nuevoAuto = obtenerAutomovil(proximoId);
-    if (nuevoAuto) {
-        listaAutomoviles.push(nuevoAuto);
-        proximoId++;
-        guardarDatos();
-        actualizarLista();
-    }
-}
+        btnGuardar.addEventListener('click', async (e) => {
 
-function obtenerAutomovil(proximoId) {
-    const nuevoAnuncioAuto = new Anuncio_Auto(
-        proximoId,
-        document.getElementById('txtTitulo').value,
-        frmAutomovil.transaction.value,
-        document.getElementById('txtDescripcion').value,
-        document.getElementById('txtPrecio').value,
-        document.getElementById('txtPuertas').value,
-        document.getElementById('txtKMs').value,
-        document.getElementById('txtPotencia').value,
-    );
-    return nuevoAnuncioAuto;
-}
+            try { await eventHandlerAltaFetchAsync(e); }
+            catch (error) { alert(error); limpiarControles(); }
+
+        });
+
+        $botonEliminar.addEventListener('click', async (e) => {
+
+            try { await eventHandlerBajaFetch(e); }
+            catch (error) { alert(error); limpiarControles(); }
+
+        });
 
 
-function obtenerId() {
-    return JSON.parse(localStorage.getItem('nextId')) || 1000;
-}
+        btnModificar.addEventListener('click', async (e) => {
 
-function guardarDatos() {
-    localStorage.setItem('anuncios', JSON.stringify(listaAutomoviles));
-    localStorage.setItem('nextId', proximoId);
-}
+            try { await eventHandlerModificarFetch(e); }
+            catch (error) { alert(error); limpiarControles(); }
 
-function actualizarLista() {
+        });
+        btnfiltroTodos.addEventListener('click', async (e) => { e.preventDefault(); filtroTodos(await traerSoloAnunciosFetchAsync()); })
 
-    divTabla.innerHTML = "";
-    let spinner = document.createElement("img");
-    spinner.src = "./img/739.gif";
-    divTabla.appendChild(spinner);
-    setTimeout(() => {
-        divTabla.removeChild(spinner);
-        divTabla.appendChild(crearTabla(listaAutomoviles));
-    }, 5000);
-}
+        btnfiltroAlquiler.addEventListener('click', async (e) => { e.preventDefault(); filtroAlquiler(await traerSoloAnunciosFetchAsync()); })
+
+        btnfiltroVenta.addEventListener('click', async (e) => { e.preventDefault(); filtroVenta(await traerSoloAnunciosFetchAsync()); })
 
 
-btnGuardar.addEventListener('click', function (e) {
+    } catch (err) {
 
-    const camposCompletos = document.getElementById('myForm').checkValidity();
-
-    e.preventDefault();
-
-    if (camposCompletos) {
-        const nuevoAnuncio = altaAnuncio();
-
-        listaAutomoviles.push(nuevoAnuncio);
-
-        const divTabla = document.getElementById('divTabla');
-
-        divTabla.removeChild(divTabla.lastChild);
-
-        divTabla.appendChild(crearTabla(listaAutomoviles));
-
-        localStorage.setItem("anuncios", JSON.stringify(listaAutomoviles));
-
+        err.status && err.statusText
+            ? console.error(`Estado de la petición: ${err.status} - ${err.statusText}`)
+            : console.error('Error!');
     }
 
-    cleanInfo();
-});
+};
 
 
-btnModificar.addEventListener('click', function (e) {
-
-
-    e.preventDefault();
-    const selectedId = document.getElementById("txtID").value;
-
-    listaAutomoviles.forEach(element => {
-        if (element.id == selectedId) {
-            const titulo = document.getElementById("txtTitulo").value;
-            const descripcion = document.getElementById("txtDescripcion").value;
-            const precio = document.getElementById("txtPrecio").value;
-            const puertas = document.getElementById("txtPuertas").value;
-            const KM = document.getElementById("txtKMs").value;
-            const potencia = document.getElementById("txtPotencia").value;
-
-            element['titulo'] = titulo;
-            element['descripcion'] = descripcion;
-            element['precio'] = precio;
-            element['num_puertas'] = puertas;
-            element['num_KMs'] = KM;
-            element['potencia'] = potencia;
-
-
-            if (frmAutomovil.transaction.value = "rdoS") {
-                element['transaccion'] = "venta";
-            } else {
-                element['transaccion'] = "alquiler";
-            }
-
-            if (confirm("Realmente desea modificar el item?")) {
-                localStorage.setItem("anuncios", JSON.stringify(listaAutomoviles));
-                divTabla.removeChild(divTabla.lastChild);
-
-                divTabla.appendChild(crearTabla(listaAutomoviles));
-
-                cleanInfo();
-
-            }
-
-        }
-    });
-});
-
-
-btnEliminar.addEventListener('click', function (e) {
-
-    e.preventDefault();
-    const selectedId = document.getElementById("txtID").value;
-
-    listaAutomoviles.forEach(element => {
-
-        if (element.id == selectedId) {
-            const index = listaAutomoviles.indexOf(element);
-
-            if (confirm("Seguro que desea eliminar el anuncio?")) {
-                listaAutomoviles.splice(index, 1);
-
-                localStorage.setItem("anuncios", JSON.stringify(listaAutomoviles));
-
-                divTabla.removeChild(divTabla.lastChild);
-
-                divTabla.appendChild(crearTabla(listaAutomoviles));
-                cleanInfo();
-            }
-        }
-    });
-});
-
-
-function cleanInfo() {
+export const cleanInfo = function () {
 
     document.getElementById("txtTitulo").value = "";
     document.getElementById("txtDescripcion").value = "";
@@ -237,65 +92,61 @@ function cleanInfo() {
     document.getElementById("txtKMs").value = "";
     document.getElementById("txtPotencia").value = "";
     document.getElementById("txtID").value = "";
-   
+
     btnGuardar.disabled = false;
     btnModificar.disabled = true;
     btnEliminar.disabled = true;
 
 }
+function filtroTodos(lista) {
 
+    const precios = lista.map(x => x.precio);
+    const resultado = precios.reduce((acc, el) => acc + el, 0) / precios.length;
 
-const get = () => {
-    return new Promise( (res, rej) =>{
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('readystatechange', ()=>{
-            if(xhr.readyState == 4){
-                if(xhr.status >= 200 && xhr.status < 300){
-                    let datos = JSON.parse(xhr.responseText);
-                    res(datos);
+    promedio.value = resultado;
 
-                } else {
-                    console.log('Error: ' + xhr.status + ' - ' + xhr.statusText);
-                }
-            }
-        });
-        xhr.open('GET', 'http://localhost:3000/entidades');
-        xhr.send();
-    });
-    
 }
 
+function filtroAlquiler(lista) {
 
-function resolveAfter2Seconds() {
-    return new Promise( (res, rej) =>{
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('readystatechange', ()=>{
-            if(xhr.readyState == 4){
-                if(xhr.status >= 200 && xhr.status < 300){
-                    let datos = JSON.parse(xhr.responseText);
-                    res(datos);
+    const soloAlquiler = lista.filter(x => x.transaccion === 'Alquiler').map(x => x.precio);
+    const resultado = precios.reduce((acc, el) => acc + el, 0) / precios.length;
 
-                } else {
-                    console.log('Error: ' + xhr.status + ' - ' + xhr.statusText);
-                }
-            }
-        });
-        xhr.open('GET', 'http://localhost:3000/entidades');
-        xhr.send();
-    });
-  }
-  
-  async function asyncCall() {
-    console.log('calling');
-    const result = await resolveAfter2Seconds();
-    console.log(result);
-    // expected output: "resolved"
-  }
-  
-  asyncCall();
-  
-function filtrar(filtro){
+    promedio.value = resultado;
 
-    const autos = obtenerAutomoviles();
-    let filtrados = autos.filter(p=>p[seleccionado] == "mujer").map(mujer => mujer.nombre);
 }
+
+function filtroVenta(lista) {
+
+    const soloVenta = lista.filter(x => x.transaccion === 'Venta').map(x => x.precio);
+    const resultado = precios.reduce((acc, el) => acc + el, 0) / precios.length;
+
+    promedio.value = resultado;
+}
+
+async function mapearTabla(element, lista) {
+
+    element.addEventListener('click', async () => {
+
+        lista = await traerSoloAnunciosFetchAsync();
+
+        let listaMapeada = lista.map(row => {
+
+            let fila = {};
+            for (const key in row) {
+
+                if (document.getElementById('filterTransaction' + key).checked) {
+                    fila[key] = row[key];
+                }
+
+            }
+            return fila;
+        })
+
+        console.log(listaMapeada);
+        $divTabla.textContent = '';
+        $divTabla.appendChild(crearTabla(listaMapeada));
+
+    });
+
+};

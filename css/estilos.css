@@ -2,7 +2,7 @@ body {
     margin: 0;
 }
 
-.container{
+.contenedor{
     display: flex;
     justify-content: center;
     
@@ -175,4 +175,19 @@ button{
 
 .big img{
     scale: 75%;
+}
+
+.filtrarTransaccion{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    border-radius: 10px;
+    border-color:black;
+    background-color: grey;
+    align-items: center;
+}
+
+.filtrarTransaccion div{
+    margin: 20px;
+
 }
